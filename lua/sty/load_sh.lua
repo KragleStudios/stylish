@@ -1,6 +1,6 @@
-print("loading aui by thelastpenguin")
+print("loading Stylish by thelastpenguin")
 
-aui = {}
+sty = {}
 
 ra.include_cl 'sty_core_cl.lua'
 ra.include_cl 'sty_fonts_cl.lua'

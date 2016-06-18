@@ -1,7 +1,7 @@
 
 local cache = {}
 
-function aui.Font(fontData)
+function sty.Font(fontData)
 	local str = {}
 	for k,v in pairs(fontData) do
 		str[#str + 1] = util.CRC(tostring(k)) .. util.CRC(tostring(v))
