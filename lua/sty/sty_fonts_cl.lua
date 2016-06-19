@@ -30,7 +30,6 @@ function sty.Font(fontData)
 			local fontName = self:atSize(avg)
 			surface.SetFont(fontName)
 			local w, h = surface.GetTextSize(text)
-			print (w, h)
 			if w > width or w > height then
 				return self:_fitToView(width, height, text, min, avg)
 			else
