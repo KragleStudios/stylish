@@ -54,3 +54,37 @@ function Panel:_FindChildrenThatMatch(fn, tbl)
 		v:_FindChildrenThatMatch(fn, tbl)
 	end
 end
+
+function Panel:GetX()
+	local x = self:GetPos()
+	return x
+end
+
+function Panel:GetY()
+	local _, y = self:GetPos()
+	return y
+end
+
+function Panel:SetX(x)
+	self:SetPos(x, self:GetY())
+end
+
+function Panel:SetY(y)
+	self:SetPos(self:GetX(), y)
+end
+
+function Panel:GetMinSize()
+	return self.minWidth or 0, self.maxWidth or 0
+end
+
+function Panel:GetMaxSize()
+	return self.maxWidth or math.huge, self.maxHeight or math.huge 
+end
+
+function Panel:IsFixedHorizontally()
+	return true
+end
+
+function Panel:IsFixedVertically()
+	return true 
+end
