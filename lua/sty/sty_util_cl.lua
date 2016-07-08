@@ -1,19 +1,27 @@
 
 do 
-	sty.ScrW = surface.ScreenHeight()
-	sty.ScrH = surface.ScreenWidth()
+	sty.ScrW = surface.ScreenWidth()
+	sty.ScrH = surface.ScreenHeight()
+
+	local function updateConstants()
+		sty.scaleRatio = sty.ScrW / 1080.0
+		if sty.scaleRatio < 0.6 then sty.scaleRatio = 0.5 end
+	end
+
+	updateConstants()
 
 	hook.Add('HUDPaint', 'sty.screenSize', function()
 		if sty.ScrW ~= surface.ScreenWidth() or sty.ScrH ~= surface.ScreenHeight() then
 			sty.ScrW = surface.ScreenWidth()
 			sty.ScrH = surface.ScreenHeight()
+			updateConstants()
 			hook.Call('STYScreenSizeChanged', nil, sty.ScrW, sty.ScrH)
 		end
 	end)
 end
 
 function sty.ScreenScale(size)
-	return size * 1080 / sty.ScrH
+	return size * sty.scaleRatio
 end
 
 function sty.With(panel)
@@ -27,4 +35,10 @@ function sty.With(panel)
 			end,
 			__call = function() return panel end
 		})
+end
+
+
+function sty.LerpColor(frac1, color1, color2)
+	local frac2 = 1 - frac1
+	return Color(color1.r * frac1 + color2.r * frac2, color1.g * frac1 + color2.g * frac2, color1.b * frac1 + color2.b * frac2, color1.a * frac1 + color2.a * frac2)
 end

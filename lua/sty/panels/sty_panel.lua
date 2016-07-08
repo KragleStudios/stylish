@@ -6,5 +6,20 @@ vgui.Register('STYPanel', {
 		end,
 		GetPreferredSize = function(self)
 			return self:GetMinSize() -- usually you want to be as small as possible
+		end,
+
+
+		-- @utilities
+		MoveToRight = function(self)
+			self:SetX(self:GetParent():GetWide() - self:GetWide())
+		end,
+		MoveToLeft = function(self)
+			self:SetX(0)
+		end,
+		MoveToTop = function(self)
+			self:SetY(0)
+		end,
+		MoveToBottom = function(self)
+			self:SetY(self:GetParent():GetTall() - self:GetTall())
 		end
 	})
