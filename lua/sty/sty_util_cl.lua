@@ -42,3 +42,28 @@ function sty.LerpColor(frac1, color1, color2)
 	local frac2 = 1 - frac1
 	return Color(color1.r * frac1 + color2.r * frac2, color1.g * frac1 + color2.g * frac2, color1.b * frac1 + color2.b * frac2, color1.a * frac1 + color2.a * frac2)
 end
+
+
+do
+	local queue = {}
+	if not IsValid(LocalPlayer()) then
+		hook.Add('OnEntityCreated', 'sty.WaitForLocalPlayer', function(ent)
+			if ent == LocalPlayer() then
+				for k,v in ipairs(queue) do
+					v()
+				end
+				table.Empty(queue)
+				hook.Remove('OnEntityCreated', 'sty.WaitForLocalPlayer')
+			end
+		end)
+	end
+
+	function sty.WaitForLocalPlayer(func)
+		if IsValid(LocalPlayer()) then
+			func()
+		else
+			table.insert(queue, func)
+		end
+	end
+
+end
