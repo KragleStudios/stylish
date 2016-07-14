@@ -1,4 +1,3 @@
-
 vgui.Register('STYLayoutHorizontal', {
 		Init = function(self)
 			self:SetPadding(0)
@@ -63,9 +62,9 @@ vgui.Register('STYLayoutVertical', {
 
 			local y = 0
 			for k,v in ipairs(self:GetChildren()) do
-				if v:GetWide() ~= w then v:SetWide(h) end
+				if v:GetWide() ~= w then v:SetWide(w) end
 				local cellHeight = self:GetCellHeight(v, k)
-				if v:GetTall() ~= cellHeight then v:SetWide(cellHeight) end
+				if v:GetTall() ~= cellHeight then v:SetTall(cellHeight) end
 				v:SetPos(0, y)
 				y = y + cellHeight + self._padding
 			end

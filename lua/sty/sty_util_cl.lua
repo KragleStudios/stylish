@@ -43,6 +43,18 @@ function sty.LerpColor(frac1, color1, color2)
 	return Color(color1.r * frac1 + color2.r * frac2, color1.g * frac1 + color2.g * frac2, color1.b * frac1 + color2.b * frac2, color1.a * frac1 + color2.a * frac2)
 end
 
+function sty.Detour(obj, method, fn)
+	if obj[method] then
+		local old = obj[method]
+		obj[method] = function(...)
+			local a, b, c, d = old(...)
+			if a ~= nil then return a, b, c, d end
+			return fn(...)
+		end
+	else
+		obj[method] = fn
+	end
+end
 
 do
 	local queue = {}
