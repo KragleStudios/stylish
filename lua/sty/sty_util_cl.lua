@@ -79,3 +79,15 @@ do
 	end
 
 end
+
+
+local cursorPositions = {}
+function sty.SaveCursor(key)
+	cursorPositions[key] = ra.fn.storeArgs(input.GetCursorPos())
+end
+
+function sty.RestoreCursor(key)
+	if cursorPositions[key] then
+		input.SetCursorPos(cursorPositions[key]())
+	end
+end
