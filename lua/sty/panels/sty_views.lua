@@ -1,18 +1,18 @@
 vgui.Register('STYButton', {
 	Init = function(self)
-		self.label = Label('', self)
+		self._label = Label('', self)
 	end,
 
 	AddAltText = function(self, altText)
 		local restoreText = nil
 		sty.Detour(self, 'OnCursorEntered', function(self)
-			restoreText = self.label:GetText()
-			self.label:SetText(altText)
+			restoreText = self._label:GetText()
+			self._label:SetText(altText)
 			self:InvalidateLayout()
 		end)
 
 		sty.Detour(self, 'OnCursorExited', function(self)
-			self.label:SetText(restoreText)
+			self._label:SetText(restoreText)
 			self:InvalidateLayout()
 		end)
 
@@ -31,17 +31,17 @@ vgui.Register('STYButton', {
 	end,
 
 	SetText = function(self, text)
-		self.label:SetText(text)
+		self._label:SetText(text)
 
 		return self 
 	end,
 
 	PerformLayout = function(self)
 		if self.font then
-			self.label:SetFont(self.font:fitToView(self:GetWide() - 5, self:GetTall() * 0.7, self.label:GetText()))
+			self._label:SetFont(self.font:fitToView(self:GetWide() - 5, self:GetTall() * 0.7, self._label:GetText()))
 		end
-		self.label:SizeToContents()
-		self.label:Center()
+		self._label:SizeToContents()
+		self._label:Center()
 	end,
 
 	PaintHovered = function(self, w, h)

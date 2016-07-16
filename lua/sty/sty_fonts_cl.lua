@@ -36,8 +36,17 @@ function sty.Font(fontData)
 				return self:_fitToView(width, height, text, avg, max)
 			end
 		end,
-
+		
 		fitToView = function(self, width, height, text)
+			if type(width) == 'Panel' then
+				-- instead of passing width, height, text you can just pass Panel, inset, text
+				if type(height) == 'string' then
+					text = height
+					height = 0
+				end
+				return self:fitToView(width:GetWide() - height * 2, width:GetTall() - height * 2, text)
+			end
+
 			return self:atSize(
 				self:_fitToView(width, height, text, 2, 128)
 			)

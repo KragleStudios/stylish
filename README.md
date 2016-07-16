@@ -17,6 +17,8 @@ coolvetica:atSize(12)
 returns the hashed name of a font which matches the definition with size 12. Say you want your font to fit into a rectangle of 100 x 100 pixels
 ```
 coolvetica:fitToView(100, 100, "Hello world")
+coolvetica:fitToView(panel, 'Hello world')
+coolvetica:fitToView(panel, inset, 'Hello world')
 ```
 figures out the perfect fontsize to fit the words "Hello world" in the dimensions provided.
 
