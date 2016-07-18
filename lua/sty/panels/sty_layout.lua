@@ -12,14 +12,14 @@ vgui.Register('STYLayoutHorizontal', {
 		end,
 
 		GetAvailableWidth = function(self)
-			return self:GetWide() - self._padding * (#self:GetChildren() - 1)
+			return self:GetWide() - self._padding * (#self:GetVisibleChildren() - 1)
 		end,
 
 		PerformLayout = function(self)
 			local w, h = self:GetSize()
 
 			local x = 0
-			for k,v in ipairs(self:GetChildren()) do
+			for k,v in ipairs(self:GetVisibleChildren()) do
 				if v:GetTall() ~= h then v:SetTall(h) end
 				local cellWidth = self:GetCellWidth(v, k)
 				if v:GetWide() ~= cellWidth then v:SetWide(cellWidth) end
@@ -35,7 +35,7 @@ vgui.Register('STYLayoutHorizontalFill', {
 	GetMinSize = function(self) return self:GetSize() end,
 
 	GetCellWidth = function(self, rowPanel, index)
-		return self:GetAvailableWidth() / #self:GetChildren()
+		return self:GetAvailableWidth() / #self:GetVisibleChildren()
 	end,
 }, 'STYLayoutHorizontal')
 
@@ -54,14 +54,14 @@ vgui.Register('STYLayoutVertical', {
 		end,
 
 		GetAvailableHeight = function(self)
-			return self:GetTall() - self._padding * (#self:GetChildren() - 1)
+			return self:GetTall() - self._padding * (#self:GetVisibleChildren() - 1)
 		end,
 
 		PerformLayout = function(self)
 			local w, h = self:GetSize()
 
 			local y = 0
-			for k,v in ipairs(self:GetChildren()) do
+			for k,v in ipairs(self:GetVisibleChildren()) do
 				if v:GetWide() ~= w then v:SetWide(w) end
 				local cellHeight = self:GetCellHeight(v, k)
 				if v:GetTall() ~= cellHeight then v:SetTall(cellHeight) end
@@ -78,6 +78,6 @@ vgui.Register('STYLayoutVerticalFill', {
 	GetMinSize = function(self) return self:GetSize() end,
 
 	GetAvailableHeight = function(self, rowPanel, index)
-		return self:GetAvailableWidth() / #self:GetChildren()
+		return self:GetAvailableWidth() / #self:GetVisibleChildren()
 	end,
 }, 'STYLayoutVertical')

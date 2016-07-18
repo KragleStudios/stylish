@@ -1,3 +1,5 @@
+local Panel = FindMetaTable('Panel')
+
 vgui.Register('STYPanel', {
 		Init = function() end,
 		IsSTYPanel = function() return true end,
@@ -6,6 +8,10 @@ vgui.Register('STYPanel', {
 		end,
 		GetPreferredSize = function(self)
 			return self:GetMinSize() -- usually you want to be as small as possible
+		end,
+
+		GetVisibleChildren = function(self)
+			return ra.util.filter(self:GetChildren(), Panel.IsVisible)
 		end,
 
 		-- @utilities
