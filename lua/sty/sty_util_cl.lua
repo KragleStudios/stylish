@@ -91,3 +91,12 @@ function sty.RestoreCursor(key)
 		input.SetCursorPos(cursorPositions[key]())
 	end
 end
+
+
+function sty.CalcInsetSize(inset, x, y)
+	return x - 2 * inset, y - 2 * inset 
+end
+
+function sty.CalcInsetPos(inset, x, y)
+	return inset + x, inset + y 
+end
