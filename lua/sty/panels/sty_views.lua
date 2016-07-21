@@ -79,3 +79,58 @@ vgui.Register('STYButton', {
 		end
 	end,
 }, 'STYPanel')
+
+
+vgui.Register('STYMultiPage', {
+	Init = function(self)
+		self._pages = {}
+		self._animTime = 0.15
+	end,
+
+	SetAnimDuration = function(self, duration)
+		self._animTime = duration
+	end,
+
+	CurPage = function(self)
+		return self._pages[#self._pages]
+	end,
+
+	PushPage = function(self, panel, onDone)
+		local curpage = self:CurPage()
+		curpage:MoveTo(-self:GetWide(), 0, self._animTime, 0, -1, function()
+			curpage:SetVisible(false)
+		end)
+
+		table.insert(self._pages, page)
+
+		panel:SetParent(self)
+		panel:SetSize(self:GetSize())
+		panel:SetPos(self:GetWide(), 0)
+		panel:SetVisible(true)
+		panel:MoveTo(0, 0, self._animTime, 0, -1, onDone)
+	end,
+
+	PopPage = function(self, onDone)
+		local curpage = self:CurPage()
+		curpage:MoveTo(self:GetWide(), 0, self._animTime, 0, -1, function()
+			curpage:SetVisible(false)
+			curpage:Remove()
+		end)
+
+		self._pages[#self._pages] = nil
+
+		local curPage = self:CurPage()
+		curpage:SetVisible(true)
+		curpage:MoveTo(-self:GetWide(), 0, self._animTime, 0, -1, onDone)
+
+	end,
+
+	PerformLayout = function(self)
+		local w, h = self:GetSize()
+
+		for k, panel in ipairs(self._pages) do
+			panel:SetSize(w, h)
+		end
+	end,
+}, 'STYPanel')
+
