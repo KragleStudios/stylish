@@ -134,3 +134,32 @@ vgui.Register('STYMultiPage', {
 	end,
 }, 'STYPanel')
 
+vgui.Register('STYImage', {
+	Init = function(self)
+		self._inset = 0
+	end,
+	SetMaterial = function(self, material)
+		self._material = material
+		return self 
+	end,
+	SetBackgroundColor = function(self, color)
+		self._bgColor = color
+		return self
+	end,
+	SetInset = function(self, inset)
+		self._inset = inset 
+		return self 
+	end,
+	Paint = function(self, w, h)
+		if self._bgColor then
+			surface.SetDrawColor(self._bgColor)
+			surface.DrawRect(0, 0, w, h)
+		end
+		if sef._material then
+			local inset = self._inset 
+			surface.SetDrawColor(255, 255, 255, 255)
+			surface.SetMaterial(self._material)
+			surface.DrawTexturedRect(inset, inset, w - 2 * inset, h - 2 * inset)
+		end
+	end,
+}, 'STYPanel')
