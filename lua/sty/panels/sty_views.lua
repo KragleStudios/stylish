@@ -1,3 +1,5 @@
+local surface = surface
+
 vgui.Register('STYButton', {
 	Init = function(self)
 		self._label = Label('', self)
@@ -16,24 +18,24 @@ vgui.Register('STYButton', {
 			self:InvalidateLayout()
 		end)
 
-		return self 
+		return self
 	end,
 
-	DoClick = function(self) 
+	DoClick = function(self)
 		-- OVERRIDE
 	end,
 
 	SetFont = function(self, font)
 		assert(type(font) ~= 'string', 'must be a sty.Font')
-		self.font = font 
+		self.font = font
 
-		return self 
+		return self
 	end,
 
 	SetText = function(self, text)
 		self._label:SetText(text)
 
-		return self 
+		return self
 	end,
 
 	PerformLayout = function(self)
@@ -79,6 +81,31 @@ vgui.Register('STYButton', {
 		end
 	end,
 }, 'STYPanel')
+
+vgui.Register('STYImage', {
+	Init = function(self)
+		self._material = nil
+	end,
+
+	SetMaterial = function(self, mat)
+		if type(mat) == 'string' then
+			mat = Material(mat)
+		end
+		self._material = mat
+	end,
+
+	SetColor = function(self, color)
+		self._color = color
+	end,
+
+	Paint = function(self, w, h)
+		if not self._material then return end
+		surface.SetMaterial(self._material)
+		surface.SetDrawColor(self._color or color_white)
+		surface.DrawTexturedRect(0, 0, w, h)
+	end,
+})
+
 
 
 vgui.Register('STYMultiPage', {
@@ -133,4 +160,3 @@ vgui.Register('STYMultiPage', {
 		end
 	end,
 }, 'STYPanel')
-
