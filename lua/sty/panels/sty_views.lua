@@ -82,32 +82,6 @@ vgui.Register('STYButton', {
 	end,
 }, 'STYPanel')
 
-vgui.Register('STYImage', {
-	Init = function(self)
-		self._material = nil
-	end,
-
-	SetMaterial = function(self, mat)
-		if type(mat) == 'string' then
-			mat = Material(mat)
-		end
-		self._material = mat
-	end,
-
-	SetColor = function(self, color)
-		self._color = color
-	end,
-
-	Paint = function(self, w, h)
-		if not self._material then return end
-		surface.SetMaterial(self._material)
-		surface.SetDrawColor(self._color or color_white)
-		surface.DrawTexturedRect(0, 0, w, h)
-	end,
-})
-
-
-
 vgui.Register('STYMultiPage', {
 	Init = function(self)
 		self._pages = {}
@@ -157,6 +131,39 @@ vgui.Register('STYMultiPage', {
 
 		for k, panel in ipairs(self._pages) do
 			panel:SetSize(w, h)
+		end
+	end,
+}, 'STYPanel')
+
+vgui.Register('STYImage', {
+	Init = function(self)
+		self._inset = 0
+	end,
+	SetMaterial = function(self, material)
+		if type(material) == 'string' then
+			material = Material(material)
+		end
+		self._material = material
+		return self
+	end,
+	SetBackgroundColor = function(self, color)
+		self._bgColor = color
+		return self
+	end,
+	SetInset = function(self, inset)
+		self._inset = inset
+		return self
+	end,
+	Paint = function(self, w, h)
+		if self._bgColor then
+			surface.SetDrawColor(self._bgColor)
+			surface.DrawRect(0, 0, w, h)
+		end
+		if sef._material then
+			local inset = self._inset
+			surface.SetDrawColor(255, 255, 255, 255)
+			surface.SetMaterial(self._material)
+			surface.DrawTexturedRect(inset, inset, w - 2 * inset, h - 2 * inset)
 		end
 	end,
 }, 'STYPanel')
