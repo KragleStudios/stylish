@@ -1,22 +1,14 @@
 
 do 
-	sty.ScrW = surface.ScreenWidth()
-	sty.ScrH = surface.ScreenHeight()
-
-	local function updateConstants()
-		sty.scaleRatio = sty.ScrW / 1080.0
-		if sty.scaleRatio < 0.6 then sty.scaleRatio = 0.5 end
-	end
-
-	updateConstants()
-
-	hook.Add('HUDPaint', 'sty.screenSize', function()
-		if sty.ScrW ~= surface.ScreenWidth() or sty.ScrH ~= surface.ScreenHeight() then
-			sty.ScrW = surface.ScreenWidth()
-			sty.ScrH = surface.ScreenHeight()
-			updateConstants()
-			hook.Call('STYScreenSizeChanged', nil, sty.ScrW, sty.ScrH)
-		end
+	hook.Add('Initialize', 'sty.screenSize', function()
+		vgui.CreateFromTable {
+			Base = "Panel",
+			PerformLayout = function()
+				sty.scaleRatio = ScrW() / 1080.0
+				if sty.scaleRatio < 0.6 then sty.scaleRatio = 0.5 end
+				hook.Call('STYScreenSizeChanged', nil, ScrW(), ScrH())
+			end,
+		}:ParentToHUD()
 	end)
 end
 
