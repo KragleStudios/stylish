@@ -2,7 +2,7 @@
 do 
 	hook.Add('Initialize', 'sty.screenSize', function()
 		vgui.CreateFromTable {
-			Base = "Panel",
+			Base = 'Panel',
 			PerformLayout = function()
 				sty.scaleRatio = ScrW() / 1080.0
 				if sty.scaleRatio < 0.6 then sty.scaleRatio = 0.5 end
@@ -20,7 +20,7 @@ function sty.With(panel)
 	return setmetatable({}, {
 			__index = function(self, fnIndex)
 				return function(_, ...) -- skip first arg cuz _ == self
-					if _ ~= self then error("must use obj:fn(...) call syntax") end
+					if _ ~= self then error('must use obj:fn(...) call syntax') end
 					panel[fnIndex](panel, ...)
 					return self
 				end
