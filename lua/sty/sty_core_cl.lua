@@ -72,19 +72,3 @@ end
 function Panel:SetY(y)
 	self:SetPos(self:GetX(), y)
 end
-
-function Panel:GetMinSize()
-	return self.minWidth or 0, self.maxWidth or 0
-end
-
-function Panel:GetMaxSize()
-	return self.maxWidth or math.huge, self.maxHeight or math.huge 
-end
-
-function Panel:IsFixedHorizontally()
-	return true
-end
-
-function Panel:IsFixedVertically()
-	return true 
-end

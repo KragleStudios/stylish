@@ -82,55 +82,55 @@ vgui.Register('STYButton', {
 	end,
 }, 'STYPanel')
 
-vgui.Register('STYMultiPage', {
+vgui.Register('STYTextBox', {
 	Init = function(self)
-		self._pages = {}
-		self._animTime = 0.15
+		self._label = Label('', self)
+		self._font = nil
+		self:SetInset(0)
+		self:SetAlign('left')
 	end,
 
-	SetAnimDuration = function(self, duration)
-		self._animTime = duration
+	SetFont = function(self, font)
+		self._font = font
+		self:InvalidateLayout()
+		return self
 	end,
 
-	CurPage = function(self)
-		return self._pages[#self._pages]
+	SetText = function(self, text)
+		self._label:SetText(text)
+		self:InvalidateLayout()
+		return self
 	end,
 
-	PushPage = function(self, panel, onDone)
-		local curpage = self:CurPage()
-		curpage:MoveTo(-self:GetWide(), 0, self._animTime, 0, -1, function()
-			curpage:SetVisible(false)
-		end)
-
-		table.insert(self._pages, page)
-
-		panel:SetParent(self)
-		panel:SetSize(self:GetSize())
-		panel:SetPos(self:GetWide(), 0)
-		panel:SetVisible(true)
-		panel:MoveTo(0, 0, self._animTime, 0, -1, onDone)
+	GetText = function(self)
+		return self._label:GetText()
 	end,
 
-	PopPage = function(self, onDone)
-		local curpage = self:CurPage()
-		curpage:MoveTo(self:GetWide(), 0, self._animTime, 0, -1, function()
-			curpage:SetVisible(false)
-			curpage:Remove()
-		end)
+	SetInset = function(self, ...)
+		self._inset = sty.CreateInset(...)
+		self:InvalidateLayout()
+		return self
+	end,
 
-		self._pages[#self._pages] = nil
-
-		local curPage = self:CurPage()
-		curpage:SetVisible(true)
-		curpage:MoveTo(-self:GetWide(), 0, self._animTime, 0, -1, onDone)
-
+	SetAlign = function(self, align)
+		self._align = align
+		self:InvalidateLayout()
+		return self
 	end,
 
 	PerformLayout = function(self)
-		local w, h = self:GetSize()
-
-		for k, panel in ipairs(self._pages) do
-			panel:SetSize(w, h)
+		self._label:SetSize(self._inset:GetSizeInset(self:GetSize()))
+		if self._font then
+			self._label:SetFont(self._font:fitToView(self._label:GetWide(), self._label:GetTall(), self._label:GetText()))
+		end
+		self._label:SizeToContents()
+		local y = self._inset.top + (self:GetTall() - self._inset.vertInset - self._label:GetTall()) * 0.5
+		if self._align == 'center' or not self._align then
+			self._label:SetPos(self._inset.left + (self:GetWide() - self._inset.horInset - self._label:GetWide()) * 0.5, y)
+		elseif self._align == 'left' then
+			self._label:SetPos(self._inset.left, y)
+		elseif self._align == 'right' then
+			self._label:SetPos(self:GetWide() - self._inset.right - self._label:GetWide(), y)
 		end
 	end,
 }, 'STYPanel')
@@ -150,10 +150,11 @@ vgui.Register('STYImage', {
 		self._bgColor = color
 		return self
 	end,
-	SetInset = function(self, inset)
-		self._inset = inset
+	SetInset = function(self, ...)
+		self._inset = sty.CreateInset(...)
 		return self
 	end,
+
 	Paint = function(self, w, h)
 		if self._bgColor then
 			surface.SetDrawColor(self._bgColor)
@@ -163,7 +164,7 @@ vgui.Register('STYImage', {
 			local inset = self._inset
 			surface.SetDrawColor(255, 255, 255, 255)
 			surface.SetMaterial(self._material)
-			surface.DrawTexturedRect(inset, inset, w - 2 * inset, h - 2 * inset)
+			surface.DrawTexturedRect(inset.left, inset.top, w - inset.horInset, h - inset.vertInset)
 		end
 	end,
 }, 'STYPanel')

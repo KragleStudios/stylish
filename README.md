@@ -1,5 +1,5 @@
-# stylish
-A UI library that's fabulous 
+# stylish by thelastpenguin
+A UI library that's fabulous
 
 # Fonts
 stylish manages your fonts for you!
@@ -30,5 +30,5 @@ figures out the perfect fontsize to fit the words "Hello world" in the dimension
      - STYTextView - a paragraph of text. Expands horizontally then vertically to it's container
      - STYLabel - a simple single line label. Expands horizontally.
      - STYTableView - a simple table view with headers and sections. Can be customized by a delegate.
-     - STYImage - a simple view for working with images icons or models. Abstracts them all. 
+     - STYImage - a simple view for working with images icons or models. Abstracts them all.
    - STYScrollView - a scroll view that holds an STYContainer and allows it to scroll on it's width, it's height, or both.
