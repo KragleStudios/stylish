@@ -72,4 +72,4 @@ vgui.Register('STYPanel', {
 		MoveToBottom = function(self)
 			self:SetY(self:GetParent():GetTall() - self:GetTall())
 		end,
-	})
+	}, 'EditablePanel')
