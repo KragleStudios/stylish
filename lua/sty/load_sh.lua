@@ -1,6 +1,6 @@
 sty = {}
 
-sty.version = '1.0.0'
+sty.version = '1.1.0'
 
 sty.include_cl = SERVER and AddCSLuaFile or include
 sty.include_sv = SERVER and include or function() end
@@ -39,5 +39,6 @@ sty.include_cl 'sty_util_cl.lua'
 sty.include_cl 'classes/sty_coretypes.lua'
 
 sty.include_cl 'panels/sty_panel.lua'
+sty.include_cl 'panels/sty_scrollpanel.lua'
 sty.include_cl 'panels/sty_layout.lua'
 sty.include_cl 'panels/sty_views.lua'
